@@ -1,0 +1,19 @@
+.header {
+  height: 15vh;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin-top: 10px;
+}
+
+.logo {
+  size: 100px;
+}
+
+a {
+  color: #3a1212 !important;
+  border-bottom: 3px solid #ff2625 !important;
+}
+
+.ul {
+  margin-right: 10px;
+}

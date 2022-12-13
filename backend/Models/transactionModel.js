@@ -8,7 +8,11 @@ const TransactionsSchema = mongoose.Schema({
   },
   amount: {
     type: Number,
-    required: [true, "Please add data in the text field"],
+    required: [true, "Please add data in the amount field"],
+  },
+  type: {
+    type: String,
+    required: [true, "Please add data in the type field"],
   },
   date: {
     type: Date,
@@ -18,6 +22,10 @@ const TransactionsSchema = mongoose.Schema({
     type: ObjectId,
     ref: "User",
     required: true,
+  },
+  category: {
+    type: String,
+    required: [true, "Please add data in the category field"],
   },
 });
 
