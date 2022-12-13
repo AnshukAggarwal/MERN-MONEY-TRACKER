@@ -1,6 +1,11 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginUserAsync } from "../../redux/actions/authActions";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  loginUserAsync,
+  resetAuthState,
+} from "../../redux/actions/authActions";
 
 const Login = () => {
   const [loginFormData, setLoginFormData] = useState({
@@ -10,6 +15,25 @@ const Login = () => {
 
   const { email, password } = loginFormData;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: "top-center",
+        closeOnClick: true,
+        autoClose: 3000,
+      });
+    }
+    if (user) {
+      navigate("/");
+    }
+
+    return () => {
+      dispatch(resetAuthState());
+    };
+  }, [user, navigate, error, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +47,15 @@ const Login = () => {
 
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUserAsync(loginFormData));
-    setLoginFormData({
-      email: "",
-      password: "",
-    });
+    if ([email, password].includes("")) {
+      toast.error("Please add data in all fields", {
+        position: "top-center",
+        closeOnClick: true,
+        autoClose: 3000,
+      });
+    } else {
+      dispatch(loginUserAsync(loginFormData));
+    }
   };
   return (
     <>

@@ -9,7 +9,7 @@
   size: 100px;
 }
 
-a {
+.menu-item {
   color: #3a1212 !important;
   border-bottom: 3px solid #ff2625 !important;
 }

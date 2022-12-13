@@ -53,6 +53,13 @@ const authReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
       };
     }
+    case "RESET_AUTH_STATE": {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+    }
     case "LOGOUT_USER": {
       return INITIAL_STATE;
     }

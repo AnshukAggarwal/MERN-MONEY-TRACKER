@@ -14,7 +14,6 @@ export const registerUserAsync = (userData) => {
       dispatch({ type: ADD_USER_START });
       const { data } = await axios.post("/api/users/register", userData);
       dispatch({ type: ADD_USER_SUCCESS, payload: data });
-      console.log(data);
     } catch (error) {
       dispatch({ type: ADD_USER_FAIL, payload: error.response.data.message });
     }
@@ -36,5 +35,11 @@ export const loginUserAsync = (userData) => {
 export const logOutUser = () => {
   return async (dispatch) => {
     dispatch({ type: "LOGOUT_USER" });
+  };
+};
+
+export const resetAuthState = () => {
+  return {
+    type: "RESET_AUTH_STATE",
   };
 };

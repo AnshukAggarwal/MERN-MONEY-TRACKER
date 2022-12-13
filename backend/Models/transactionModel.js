@@ -24,7 +24,8 @@ const TransactionsSchema = mongoose.Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: ObjectId,
+    ref: "Category",
     required: [true, "Please add data in the category field"],
   },
 });

@@ -1,26 +1,41 @@
 const User = require("../Models/userModel");
 const Transactions = require("../Models/transactionModel");
+const Category = require("../Models/categoryModel");
 
 const getTransactions = async (req, res) => {
   try {
-    const transactions = await Transactions.find({ user: req.user._id });
+    const transactions = await Transactions.find({
+      user: req.user._id,
+    }).populate("category");
     res.status(200).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 const addTransaction = async (req, res) => {
-  const { text, amount, date } = req.body;
+  const { text, amount, date, category, type } = req.body;
   const newTransaction = new Transactions({
     text,
     amount,
     date: new Date(date).toString(),
     user: req.user._id,
+    category,
+    type,
   });
 
   try {
     await newTransaction.save();
-    res.status(201).json(newTransaction);
+    const categoryName = await Category.findById(category);
+    //console.log(categoryName);
+    res.status(201).json({
+      _id: newTransaction._id,
+      text,
+      amount,
+      date: new Date(date).toString(),
+      user: req.user._id,
+      type,
+      category: categoryName.name,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

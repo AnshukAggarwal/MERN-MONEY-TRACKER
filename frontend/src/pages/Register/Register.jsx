@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUserAsync } from "../../redux/actions/authActions";
+import {
+  registerUserAsync,
+  resetAuthState,
+} from "../../redux/actions/authActions";
 
 const Register = () => {
   const [registerFormData, setRegisterFormData] = useState({
@@ -14,13 +18,23 @@ const Register = () => {
   const { name, email, password, repeatPassword } = registerFormData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (error) {
+      toast.error(error, {
+        position: "top-center",
+        closeOnClick: true,
+        autoClose: 3000,
+      });
+    }
     if (user) {
       navigate("/");
     }
-  }, [user, navigate]);
+    return () => {
+      dispatch(resetAuthState());
+    };
+  }, [user, navigate, error, dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,14 +48,21 @@ const Register = () => {
 
   const handleRegisterFormSubmit = (e) => {
     e.preventDefault();
-    //console.log(registerFormData);
-    dispatch(registerUserAsync(registerFormData));
-    setRegisterFormData({
-      name: "",
-      email: "",
-      password: "",
-      repeatPassword: "",
-    });
+    if ([name, email, password, repeatPassword].includes("")) {
+      toast.error("Please add data in all the fields", {
+        position: "top-center",
+        closeOnClick: true,
+        autoClose: 3000,
+      });
+    } else {
+      dispatch(registerUserAsync(registerFormData));
+      setRegisterFormData({
+        name: "",
+        email: "",
+        password: "",
+        repeatPassword: "",
+      });
+    }
   };
   return (
     <>
