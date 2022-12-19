@@ -27,6 +27,25 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
       };
     }
+    case types.ADD_TRANSACTION_START: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case types.ADD_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      };
+    }
+    case types.ADD_TRANSACTION_FAIL: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
     default:
       return state;
   }

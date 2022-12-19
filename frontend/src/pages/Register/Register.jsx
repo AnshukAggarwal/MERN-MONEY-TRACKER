@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { ImProfile } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { checkEmptyInputFields, checkInputsAreSame } from "../../utils";
 import {
   registerUserAsync,
   resetAuthState,
@@ -48,13 +50,10 @@ const Register = () => {
 
   const handleRegisterFormSubmit = (e) => {
     e.preventDefault();
-    if ([name, email, password, repeatPassword].includes("")) {
-      toast.error("Please add data in all the fields", {
-        position: "top-center",
-        closeOnClick: true,
-        autoClose: 3000,
-      });
-    } else {
+    if (
+      !checkEmptyInputFields([name, email, password, repeatPassword]) &&
+      checkInputsAreSame(password, repeatPassword)
+    ) {
       dispatch(registerUserAsync(registerFormData));
       setRegisterFormData({
         name: "",
@@ -67,7 +66,9 @@ const Register = () => {
   return (
     <>
       <section>
-        <h2>Register your account</h2>
+        <h2>
+          <ImProfile color="#ff2625" size={50} /> Register your account
+        </h2>
       </section>
       <hr />
       <form onSubmit={handleRegisterFormSubmit}>

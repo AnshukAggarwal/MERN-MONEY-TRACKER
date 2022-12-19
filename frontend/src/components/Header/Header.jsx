@@ -25,7 +25,7 @@ const Header = () => {
         <ul className="nav">
           <li className={`nav-item ${styles.ul}`}>
             <NavLink
-              to="/login"
+              to="/account"
               className={`nav-link ${styles["menu-item"]}`}
               onClick={handleUserLogOut}
             >
@@ -36,18 +36,21 @@ const Header = () => {
       ) : (
         <ul className="nav">
           <li className={`nav-item ${styles.ul}`}>
-            <NavLink to="/login" className={`nav-link ${styles["menu-item"]}`}>
-              Login
+            <NavLink
+              to="/account"
+              className={`nav-link ${styles["menu-item"]}`}
+            >
+              Account
             </NavLink>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <NavLink
               to="/register"
               className={`nav-link ${styles["menu-item"]}`}
             >
               Register
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       )}
     </header>

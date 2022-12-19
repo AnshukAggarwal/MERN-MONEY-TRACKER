@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/transactions", transactionsRouter);
-app.use("/api/category", categoryRouter);
+app.use("/api/categories", categoryRouter);
 
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true });
 

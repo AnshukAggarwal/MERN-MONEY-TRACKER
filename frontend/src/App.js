@@ -4,10 +4,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
 import EditTransaction from "./components/EditTransaction/EditTransaction";
 import DeleteTransaction from "./components/DeleteTransaction/DeleteTransaction";
+import AddTransaction from "./components/AddTransaction/AddTransaction";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -16,10 +16,10 @@ function App() {
       <main className="main">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="add" element={<AddTransaction />} />
           <Route path="edit" element={<EditTransaction />} />
           <Route path="delete" element={<DeleteTransaction />} />
+          <Route path="account" element={<Account />} />
         </Routes>
       </main>
       <ToastContainer />

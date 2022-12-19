@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { BiLogIn } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { checkEmptyInputFields } from "../../utils";
 import {
   loginUserAsync,
   resetAuthState,
@@ -47,20 +49,16 @@ const Login = () => {
 
   const handleLoginFormSubmit = (e) => {
     e.preventDefault();
-    if ([email, password].includes("")) {
-      toast.error("Please add data in all fields", {
-        position: "top-center",
-        closeOnClick: true,
-        autoClose: 3000,
-      });
-    } else {
+    if (!checkEmptyInputFields([email, password])) {
       dispatch(loginUserAsync(loginFormData));
     }
   };
   return (
     <>
       <section>
-        <h2>Login to your account</h2>
+        <h2>
+          <BiLogIn color="#ff2625" size={50} /> Login to your account
+        </h2>
       </section>
       <hr />
       <form onSubmit={handleLoginFormSubmit}>

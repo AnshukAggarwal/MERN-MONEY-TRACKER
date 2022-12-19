@@ -25,17 +25,23 @@ const addTransaction = async (req, res) => {
 
   try {
     await newTransaction.save();
-    const categoryName = await Category.findById(category);
-    //console.log(categoryName);
-    res.status(201).json({
-      _id: newTransaction._id,
-      text,
-      amount,
-      date: new Date(date).toString(),
+    // const test = await getTransactions();
+    // console.log(test);
+    const transactions = await Transactions.find({
       user: req.user._id,
-      type,
-      category: categoryName.name,
-    });
+    }).populate("category");
+    //const categoryName = await Category.findById(category);
+    //console.log(categoryName);
+    // res.status(201).json({
+    //   _id: newTransaction._id,
+    //   text,
+    //   amount,
+    //   date: new Date(date).toString(),
+    //   user: req.user._id,
+    //   type,
+    //   category: categoryName.name,
+    // });
+    res.status(201).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
