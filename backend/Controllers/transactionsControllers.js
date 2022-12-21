@@ -3,21 +3,69 @@ const Transactions = require("../Models/transactionModel");
 const Category = require("../Models/categoryModel");
 
 const getTransactions = async (req, res) => {
+  //const limit = req.query.limit ? req.query.limit : 10;
+  const limit = 10;
+  const { type, category } = req.query;
+
   try {
-    const transactions = await Transactions.find({
-      user: req.user._id,
-    }).populate("category");
-    res.status(200).json(transactions);
+    if (type === "all" && category === "all") {
+      const transactions = await Transactions.find({
+        user: req.user._id,
+      })
+        .sort({ date: "asc" })
+        .populate("category")
+        .limit(limit);
+      const total = await Transactions.countDocuments({ user: req.user._id });
+      res.status(200).json({ transactions, total });
+    }
+    if (type === "all" && category !== "all") {
+      const selectedCategory = await Category.findById(category);
+      const transactions = await Transactions.find({
+        user: req.user._id,
+        category: selectedCategory._id,
+      })
+        .sort({ date: "asc" })
+        .populate("category")
+        .limit(limit);
+      const total = await Transactions.countDocuments({ user: req.user._id });
+      res.status(200).json({ transactions, total });
+    }
+    if (type !== "all" && category === "all") {
+      const transactions = await Transactions.find({
+        user: req.user._id,
+        type: type,
+      })
+        .sort({ date: "asc" })
+        .populate("category")
+        .limit(limit);
+      const total = await Transactions.countDocuments({ user: req.user._id });
+      res.status(200).json({ transactions, total });
+    }
+    if (type !== "all" && category !== "all") {
+      const selectedCategory = await Category.findById(category);
+      const transactions = await Transactions.find({
+        user: req.user._id,
+        type: type,
+        category: selectedCategory._id,
+      })
+        .sort({ date: "asc" })
+        .populate("category")
+        .limit(limit);
+      const total = await Transactions.countDocuments({ user: req.user._id });
+      res.status(200).json({ transactions, total });
+    }
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
+
 const addTransaction = async (req, res) => {
   const { text, amount, date, category, type } = req.body;
+  //console.log(new Date(date).toISOString());
   const newTransaction = new Transactions({
     text,
     amount,
-    date: new Date(date).toString(),
+    date: new Date(date).toISOString(),
     user: req.user._id,
     category,
     type,
@@ -25,29 +73,23 @@ const addTransaction = async (req, res) => {
 
   try {
     await newTransaction.save();
-    // const test = await getTransactions();
     // console.log(test);
     const transactions = await Transactions.find({
       user: req.user._id,
     }).populate("category");
-    //const categoryName = await Category.findById(category);
-    //console.log(categoryName);
-    // res.status(201).json({
-    //   _id: newTransaction._id,
-    //   text,
-    //   amount,
-    //   date: new Date(date).toString(),
-    //   user: req.user._id,
-    //   type,
-    //   category: categoryName.name,
-    // });
     res.status(201).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 const editTransaction = async (req, res) => {
-  const { text, amount, date } = req.body;
+  const {
+    transactionAmount,
+    transactionCategory,
+    transactionDate,
+    transactionText,
+    transactionType,
+  } = req.body;
   const { id } = req.params;
   const transactionToUpdate = await Transactions.findById(id);
 
@@ -64,15 +106,22 @@ const editTransaction = async (req, res) => {
   }
 
   const updatedTransaction = {
-    text,
-    amount,
-    date: new Date(date).toString(),
+    text: transactionText,
+    amount: transactionAmount,
+    date: new Date(transactionDate).toString(),
     user: req.user._id,
+    category: transactionCategory,
+    type: transactionType,
   };
+
+  //console.log(updatedTransaction);
 
   try {
     await Transactions.findByIdAndUpdate(id, updatedTransaction, { new: true });
-    res.status(200).json(updatedTransaction);
+    const transactions = await Transactions.find({
+      user: req.user._id,
+    }).populate("category");
+    res.status(200).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -95,7 +144,12 @@ const deleteTransaction = async (req, res) => {
   }
   try {
     await Transactions.findByIdAndDelete(id);
-    res.status(200).json(transactionToDelete);
+    const transactions = await Transactions.find({
+      user: req.user._id,
+    })
+      .populate("category")
+      .limit(3);
+    res.status(200).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

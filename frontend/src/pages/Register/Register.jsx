@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { ImProfile } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "../../UI/Button/Button";
 import { checkEmptyInputFields, checkInputsAreSame } from "../../utils";
 import {
   registerUserAsync,
@@ -125,9 +126,7 @@ const Register = () => {
           />
         </div>
         <div>
-          <button type="submit" className="btn btn-primary">
-            Register
-          </button>
+          <Button type="submit">Register</Button>
         </div>
       </form>
     </>

@@ -12,6 +12,6 @@ const secure = require("../Middlewares/auth");
 router.get("/", secure, getTransactions);
 router.post("/add", secure, addTransaction);
 router.put("/edit/:id", secure, editTransaction);
-router.delete("delete/:id", secure, deleteTransaction);
+router.delete("/delete/:id", secure, deleteTransaction);
 
 module.exports = router;

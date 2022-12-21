@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { checkEmptyInputFields } from "../../utils";
+import Button from "../../UI/Button/Button";
 import { getCategoriesAsync } from "../../redux/actions/uiActions";
 import { addTransactionAsync } from "../../redux/actions/transactionActions";
 
@@ -35,7 +36,6 @@ const AddTransaction = () => {
 
   const handleAddTransaction = (e) => {
     e.preventDefault();
-    console.log(addTransactionFormData);
     if (!checkEmptyInputFields([text, amount, type, date, category])) {
       dispatch(addTransactionAsync(addTransactionFormData));
       navigate("/");
@@ -44,6 +44,11 @@ const AddTransaction = () => {
 
   return (
     <>
+      <section className="mb-5">
+        <Link to="/">
+          <Button>Back to transactions</Button>
+        </Link>
+      </section>
       <h2>
         <FaMoneyCheckAlt color="#ff2625" size={50} /> Add Transaction
       </h2>
@@ -124,7 +129,7 @@ const AddTransaction = () => {
             })}
           </select>
         </div>
-        <button className="btn btn-primary">Add</button>
+        <Button type="submit">Add Transaction</Button>
       </form>
     </>
   );

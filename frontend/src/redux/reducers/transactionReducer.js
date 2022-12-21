@@ -18,7 +18,8 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        transactions: action.payload,
+        transactions: action.payload.transactions,
+        total: action.payload.total,
       };
     }
     case types.GET_TRANSACTIONS_FAIL: {
@@ -46,6 +47,36 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
         error: action.payload,
       };
     }
+    case types.EDIT_TRANSACTION_START:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.EDIT_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      };
+    }
+    case types.EDIT_TRANSACTION_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case types.DELETE_TRANSACTION_START:
+      return { ...state, loading: true };
+    case types.DELETE_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      };
+    case types.DELETE_TRANSACTION_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
     default:
       return state;
   }
