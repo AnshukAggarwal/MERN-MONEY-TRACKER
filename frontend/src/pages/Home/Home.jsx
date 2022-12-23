@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import Button from "../../UI/Button/Button";
 import Spinner from "../../UI/Button/Spinner/Spinner";
+import Button from "../../UI/Button/Button";
+import Filters from "../../components/Filters/Filters";
+import Transactions from "../../components/Transactions/Transactions";
+import Analytics from "../../components/Analytics/Analytics";
 import {
   getTransactionAsync,
   deleteTransactionAsync,
 } from "../../redux/actions/transactionActions";
 import { getCategoriesAsync } from "../../redux/actions/uiActions";
-import Filters from "../../components/Filters/Filters";
 
 const Home = () => {
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(10);
   const [type, setType] = useState("all");
   const [category, setCategory] = useState("all");
+  const [viewType, setViewType] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const { transactions, total, loading } = useSelector(
     (state) => state.transactions
@@ -40,7 +42,9 @@ const Home = () => {
 
   const handleLoadMoreTransaction = () => {
     //dispatch(getTransactionAsync(limit));
-    setLimit(limit + 3);
+    setLimit((prevState) => {
+      return prevState + 10;
+    });
   };
 
   const handleTypeChange = (e) => {
@@ -49,6 +53,10 @@ const Home = () => {
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
+  };
+
+  const handleSwitchViewType = () => {
+    setViewType((prevState) => !prevState);
   };
 
   if (loading) {
@@ -61,68 +69,39 @@ const Home = () => {
             <Button>Add Transaction</Button>
           </Link>
         </div>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <Filters
-            type={type}
-            categories={categories}
-            category={category}
-            handleTypeChange={handleTypeChange}
-            handleCategoryChange={handleCategoryChange}
+        <div className="form-check form-switch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="flexSwitchCheckChecked"
+            checked={viewType}
+            onChange={handleSwitchViewType}
           />
+          <label className="form-check-label" htmlFor="flexSwitchCheckChecked">
+            Switch View
+          </label>
         </div>
-        {transactions.length > 0 ? (
+        {viewType ? (
           <>
-            <table className="table table-bordered my-3">
-              <thead>
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Amount (C$)</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((transaction) => {
-                  return (
-                    <tr key={transaction._id}>
-                      <td>
-                        {new Date(transaction.date).toISOString().split("T")[0]}
-                      </td>
-                      <td>{transaction.amount}</td>
-                      <td>{transaction.type}</td>
-                      <td>{transaction.category.name}</td>
-                      <td>{transaction.text}</td>
-                      <td>
-                        <pre>
-                          {" "}
-                          <Link to="/edit" state={{ data: transaction }}>
-                            <FaEdit color="#ff2625" />
-                          </Link>{" "}
-                          |{" "}
-                          <FaTrash
-                            color="#ff2625"
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              handleDeleteTransaction(transaction._id)
-                            }
-                          />
-                        </pre>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {transactions.length < total && (
-              <div className="d-flex justify-content-center">
-                <Button click={handleLoadMoreTransaction}>Load More</Button>
-              </div>
-            )}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <Filters
+                type={type}
+                categories={categories}
+                category={category}
+                handleTypeChange={handleTypeChange}
+                handleCategoryChange={handleCategoryChange}
+              />
+            </div>
+            <Transactions
+              transactions={transactions}
+              total={total}
+              handleDeleteTransaction={handleDeleteTransaction}
+              handleLoadMoreTransaction={handleLoadMoreTransaction}
+            />
           </>
         ) : (
-          <h3>You have no transactions yet!</h3>
+          <Analytics transactions={transactions} categories={categories} />
         )}
       </>
     );

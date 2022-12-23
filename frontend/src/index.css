@@ -11,3 +11,36 @@ body {
   background-color: #fffafb;
   height: 100vh;
 }
+
+.test {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 10px;
+}
+
+.circle-green {
+  border-radius: 50%;
+  border: 4px solid green;
+  height: 150px;
+  width: 150px;
+  border-width: 25%;
+}
+
+.circle-red {
+  border-radius: 50%;
+  border: 4px solid red;
+  height: 150px;
+  width: 150px;
+  border-width: 25%;
+}
+
+.test2 {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.test3 {
+  border: 2px solid gray;
+}

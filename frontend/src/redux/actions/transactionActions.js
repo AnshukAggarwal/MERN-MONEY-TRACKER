@@ -16,6 +16,7 @@ export const getTransactionAsync = (limit, type, category) => {
         `/api/transactions/?limit=${limit}&type=${type}&category=${category}`,
         config
       );
+      //console.log(data);
       dispatch({ type: types.GET_TRANSACTIONS_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
