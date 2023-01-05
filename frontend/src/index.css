@@ -42,5 +42,6 @@ body {
 }
 
 .test3 {
-  border: 2px solid gray;
+  width: 10%;
+  cursor: pointer;
 }

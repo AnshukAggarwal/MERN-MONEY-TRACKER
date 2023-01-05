@@ -2,68 +2,105 @@ const User = require("../Models/userModel");
 const Transactions = require("../Models/transactionModel");
 const Category = require("../Models/categoryModel");
 
+// const getTransactions = async (req, res) => {
+//   const limit = req.query.limit ? req.query.limit : 5;
+//   //const limit = 5;
+//   const { type, category } = req.query;
+
+//   try {
+//     if (type === "all" && category === "all") {
+//       const transactions = await Transactions.find({
+//         user: req.user._id,
+//       })
+//         .sort({ date: "asc" })
+//         .populate("category")
+//         .limit(limit);
+//       const total = await Transactions.countDocuments({ user: req.user._id });
+//       res.status(200).json({ transactions, total });
+//     }
+//     if (type === "all" && category !== "all") {
+//       const selectedCategory = await Category.findById(category);
+//       const transactions = await Transactions.find({
+//         user: req.user._id,
+//         category: selectedCategory._id,
+//       })
+//         .sort({ date: "asc" })
+//         .populate("category")
+//         .limit(limit);
+//       const total = await Transactions.countDocuments({
+//         user: req.user._id,
+//         category: selectedCategory._id,
+//       });
+//       res.status(200).json({ transactions, total });
+//     }
+//     if (type !== "all" && category === "all") {
+//       const transactions = await Transactions.find({
+//         user: req.user._id,
+//         type: type,
+//       })
+//         .sort({ date: "asc" })
+//         .populate("category")
+//         .limit(limit);
+//       const total = await Transactions.countDocuments({
+//         user: req.user._id,
+//         type,
+//       });
+//       res.status(200).json({ transactions, total });
+//     }
+//     if (type !== "all" && category !== "all") {
+//       const selectedCategory = await Category.findById(category);
+//       const transactions = await Transactions.find({
+//         user: req.user._id,
+//         type: type,
+//         category: selectedCategory._id,
+//       })
+//         .sort({ date: "asc" })
+//         .populate("category")
+//         .limit(limit);
+//       const total = await Transactions.countDocuments({
+//         user: req.user._id,
+//         type: type,
+//         category: selectedCategory._id,
+//       });
+//       res.status(200).json({ transactions, total });
+//     }
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
 const getTransactions = async (req, res) => {
+  console.log(req.query);
   const limit = req.query.limit ? req.query.limit : 5;
   //const limit = 5;
   const { type, category } = req.query;
 
   try {
-    if (type === "all" && category === "all") {
-      const transactions = await Transactions.find({
-        user: req.user._id,
-      })
-        .sort({ date: "asc" })
-        .populate("category")
-        .limit(limit);
-      const total = await Transactions.countDocuments({ user: req.user._id });
-      res.status(200).json({ transactions, total });
+    let selectedCategory = "";
+    if (category !== "all") {
+      selectedCategory = await Category.findById(category);
     }
-    if (type === "all" && category !== "all") {
-      const selectedCategory = await Category.findById(category);
-      const transactions = await Transactions.find({
-        user: req.user._id,
-        category: selectedCategory._id,
-      })
-        .sort({ date: "asc" })
-        .populate("category")
-        .limit(limit);
-      const total = await Transactions.countDocuments({
-        user: req.user._id,
-        category: selectedCategory._id,
-      });
-      res.status(200).json({ transactions, total });
-    }
-    if (type !== "all" && category === "all") {
-      const transactions = await Transactions.find({
-        user: req.user._id,
-        type: type,
-      })
-        .sort({ date: "asc" })
-        .populate("category")
-        .limit(limit);
-      const total = await Transactions.countDocuments({
-        user: req.user._id,
-        type,
-      });
-      res.status(200).json({ transactions, total });
-    }
-    if (type !== "all" && category !== "all") {
-      const selectedCategory = await Category.findById(category);
-      const transactions = await Transactions.find({
-        user: req.user._id,
-        type: type,
-        category: selectedCategory._id,
-      })
-        .sort({ date: "asc" })
-        .populate("category")
-        .limit(limit);
-      const total = await Transactions.countDocuments({
-        user: req.user._id,
-        type: type,
-        category: selectedCategory._id,
-      });
-      res.status(200).json({ transactions, total });
-    }
+    const transactions = await Transactions.find({
+      user: req.user._id,
+      ...(type !== "all" && { type: type }),
+      ...(category !== "all" && { category: selectedCategory._id }),
+    })
+      .sort({ date: "asc" })
+      .populate("category")
+      .limit(limit);
+    // const total = await Transactions.countDocuments({
+    //   user: req.user._id,
+    //   ...(type !== "all" && { type }),
+    //   ...(category !== "all" && { category: selectedCategory._id }),
+    // });
+    const total = await Transactions.find({
+      user: req.user._id,
+      ...(type !== "all" && { type }),
+      ...(category !== "all" && { category: selectedCategory._id }),
+    })
+      .sort({ date: "asc" })
+      .populate("category");
+    res.status(200).json({ transactions, total });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -84,13 +121,13 @@ const addTransaction = async (req, res) => {
   try {
     await newTransaction.save();
     // console.log(test);
-    const transactions = await Transactions.find({
-      user: req.user._id,
-    })
-      .sort({ date: "asc" })
-      .populate("category");
+    // const transactions = await Transactions.find({
+    //   user: req.user._id,
+    // })
+    //   .sort({ date: "asc" })
+    //   .populate("category");
 
-    res.status(201).json(transactions);
+    res.status(201);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -131,12 +168,12 @@ const editTransaction = async (req, res) => {
 
   try {
     await Transactions.findByIdAndUpdate(id, updatedTransaction, { new: true });
-    const transactions = await Transactions.find({
-      user: req.user._id,
-    })
-      .populate("category")
-      .sort({ date: "asc" });
-    res.status(200).json(transactions);
+    // const transactions = await Transactions.find({
+    //   user: req.user._id,
+    // })
+    //   .populate("category")
+    //   .sort({ date: "asc" });
+    res.status(200);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

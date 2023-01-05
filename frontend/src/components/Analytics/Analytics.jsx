@@ -1,8 +1,9 @@
 import React from "react";
 import CategoryProgressBar from "../CategoryProgressBar/CategoryProgressBar";
+import styles from "./Analytics.module.css";
 
 const Analytics = ({ transactions, categories }) => {
-  console.log(categories);
+  console.log(transactions);
   const incomeTransactions = transactions.filter((t) => t.type === "Income");
   const expenseTransactions = transactions.filter((t) => t.type === "Expense");
   const totalMoneyFromTransactions = transactions
@@ -20,12 +21,14 @@ const Analytics = ({ transactions, categories }) => {
       <h3>Analytics</h3>
       <section className="d-flex flex-column">
         <section className="row test mb-5 p-4">
-          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4 me-1">
+          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4">
             <div>
               <h3>Transaction Wise Analysis</h3>
             </div>
-            <div className="d-flex">
-              <div className="circle-green d-flex flex-column justify-content-center align-items-center me-1">
+            <div className={`d-flex ${styles.reverse}`}>
+              <div
+                className={`${styles["circle-green"]} d-flex flex-column justify-content-center align-items-center me-1 ${styles.gap}`}
+              >
                 <h6>Income : {incomeTransactions.length}</h6>
                 <h6>
                   {(incomeTransactions.length / transactions.length).toFixed(
@@ -34,7 +37,9 @@ const Analytics = ({ transactions, categories }) => {
                   %
                 </h6>
               </div>
-              <div className="circle-red d-flex flex-column justify-content-center align-items-center ms-1">
+              <div
+                className={`${styles["circle-red"]} d-flex flex-column justify-content-center align-items-center ms-1 ${styles.gap}`}
+              >
                 <h6>Expense: {expenseTransactions.length}</h6>
                 <h6>
                   {(expenseTransactions.length / transactions.length).toFixed(
@@ -45,20 +50,24 @@ const Analytics = ({ transactions, categories }) => {
               </div>
             </div>
           </section>
-          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4 ms-1">
+          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4">
             <div>
               <h3>Amount Wise Analysis</h3>
             </div>
-            <div className="d-flex">
-              <div className="circle-green d-flex flex-column justify-content-center align-items-center me-1">
+            <div className={`d-flex ${styles.reverse}`}>
+              <div
+                className={`${styles["circle-green"]} d-flex flex-column justify-content-center align-items-center me-1 ${styles.gap}`}
+              >
                 <h6>Income: ${incomeTotal}</h6>
                 <h6>
                   {(incomeTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
                   %
                 </h6>
               </div>
-              <div className="circle-red d-flex flex-column justify-content-center align-items-center ms-1">
-                <h6>Expense: ${expenseTotal}</h6>
+              <div
+                className={`${styles["circle-red"]} d-flex flex-column justify-content-center align-items-center ms-1 ${styles.gap}`}
+              >
+                <h6>Expense: ${expenseTotal.toFixed(2)}</h6>
                 <h6>
                   {(expenseTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
                   %
@@ -67,18 +76,22 @@ const Analytics = ({ transactions, categories }) => {
             </div>
           </section>
         </section>
-        <CategoryProgressBar
-          categories={categories}
-          categoryTransactions={expenseTransactions}
-          total={expenseTotal}
-          heading="Expenses"
-        />
-        <CategoryProgressBar
-          categories={categories}
-          categoryTransactions={incomeTransactions}
-          total={incomeTotal}
-          heading="Income"
-        />
+        {expenseTransactions.length > 0 && (
+          <CategoryProgressBar
+            categories={categories}
+            categoryTransactions={expenseTransactions}
+            total={expenseTotal}
+            heading="Expenses"
+          />
+        )}
+        {incomeTransactions.length > 0 && (
+          <CategoryProgressBar
+            categories={categories}
+            categoryTransactions={incomeTransactions}
+            total={incomeTotal}
+            heading="Income"
+          />
+        )}
       </section>
     </>
   );

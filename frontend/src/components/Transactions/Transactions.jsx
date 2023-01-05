@@ -53,7 +53,7 @@ const Transactions = ({
             })}
           </tbody>
         </table>
-        {transactions.length < total && (
+        {transactions.length < total.length && (
           <div className="d-flex justify-content-center">
             <Button click={handleLoadMoreTransaction}>Load More</Button>
           </div>

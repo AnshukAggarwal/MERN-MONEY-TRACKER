@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./CategoryProgressBar.module.css";
 
 const CategoryProgressBar = ({
   categories,
@@ -7,9 +8,9 @@ const CategoryProgressBar = ({
   heading,
 }) => {
   return (
-    <section className="test p-5 row mb-5">
+    <section className={`${styles["category-progress-container"]} row mb-5`}>
       <h2 className="mb-3">{heading} By Category</h2>
-      <section className="test p-4">
+      <section className={`${styles["category-progress-container"]}`}>
         {categories.map((category) => {
           const categoryTotal = categoryTransactions
             .filter((t) => t.category.name === category.name)
@@ -18,13 +19,11 @@ const CategoryProgressBar = ({
           const width = ((categoryTotal / total) * 100).toFixed(0);
           return (
             categoryTotal > 0 && (
-              <>
+              <section key={category._id}>
                 <h6>{category.name}</h6>
-                <div className="progress mb-3" key={category._id}>
+                <div className="progress mb-3">
                   <div
                     className="progress-bar"
-                    key={category._id}
-                    role="progressbar"
                     style={{
                       width: `${width}%`,
                       color: "black",
@@ -34,7 +33,7 @@ const CategoryProgressBar = ({
                     {width} %
                   </div>
                 </div>
-              </>
+              </section>
             )
           );
         })}

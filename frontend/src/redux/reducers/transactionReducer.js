@@ -38,7 +38,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        transactions: action.payload,
+        //transactions: action.payload,
       };
     }
     case types.ADD_TRANSACTION_FAIL: {
@@ -56,7 +56,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        transactions: action.payload,
+        //transactions: action.payload,
       };
     }
     case types.EDIT_TRANSACTION_FAIL:
