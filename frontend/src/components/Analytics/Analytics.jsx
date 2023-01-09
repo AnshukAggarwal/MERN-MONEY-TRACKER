@@ -58,7 +58,7 @@ const Analytics = ({ transactions, categories }) => {
               <div
                 className={`${styles["circle-green"]} d-flex flex-column justify-content-center align-items-center me-1 ${styles.gap}`}
               >
-                <h6>Income: ${incomeTotal}</h6>
+                <h6>Income: ${incomeTotal.toFixed(0)}</h6>
                 <h6>
                   {(incomeTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
                   %
@@ -67,7 +67,7 @@ const Analytics = ({ transactions, categories }) => {
               <div
                 className={`${styles["circle-red"]} d-flex flex-column justify-content-center align-items-center ms-1 ${styles.gap}`}
               >
-                <h6>Expense: ${expenseTotal.toFixed(2)}</h6>
+                <h6>Expense: ${expenseTotal.toFixed(0)}</h6>
                 <h6>
                   {(expenseTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
                   %

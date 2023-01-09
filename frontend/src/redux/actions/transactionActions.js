@@ -2,7 +2,7 @@ import * as types from "../constants/transactionConstants";
 import { store } from "../store";
 import axios from "axios";
 
-export const getTransactionAsync = (limit, type, category) => {
+export const getTransactionAsync = (limit, type, category, duration) => {
   return async (dispatch) => {
     const token = await store.getState().auth.user.token;
     const config = {
@@ -13,6 +13,7 @@ export const getTransactionAsync = (limit, type, category) => {
         limit,
         type,
         category,
+        duration,
       },
     };
     try {

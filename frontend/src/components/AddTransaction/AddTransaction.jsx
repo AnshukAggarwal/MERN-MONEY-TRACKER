@@ -42,6 +42,19 @@ const AddTransaction = () => {
     }
   };
 
+  const disableFutureDates = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month =
+      today.getMonth() + 1 > 9
+        ? today.getMonth() + 1
+        : `0${today.getMonth() + 1}`;
+    const day = today.getDate() > 9 ? today.getDate() : `0${today.getDate()}`;
+    //console.log(`${year}-${month}-${day}`);
+
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <>
       <section className="mb-5">
@@ -103,6 +116,7 @@ const AddTransaction = () => {
             type="date"
             className="form-control"
             id="date"
+            max={disableFutureDates()}
             name="date"
             value={date}
             onChange={handleInputChange}

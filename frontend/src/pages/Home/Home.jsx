@@ -18,6 +18,7 @@ const Home = () => {
   const [limit, setLimit] = useState(5);
   const [type, setType] = useState("all");
   const [category, setCategory] = useState("all");
+  const [duration, setDuration] = useState("7");
   const [viewType, setViewType] = useState("table");
   const { user } = useSelector((state) => state.auth);
   const { transactions, total, loading } = useSelector(
@@ -37,8 +38,8 @@ const Home = () => {
       navigate("/account");
     }
     console.log("getting transactions");
-    dispatch(getTransactionAsync(limit, type, category));
-  }, [user, navigate, dispatch, limit, type, category]);
+    dispatch(getTransactionAsync(limit, type, category, duration));
+  }, [user, navigate, dispatch, limit, type, category, duration]);
 
   const handleDeleteTransaction = (id) => {
     dispatch(deleteTransactionAsync(id));
@@ -57,6 +58,10 @@ const Home = () => {
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
+  };
+
+  const handleDurationChange = (e) => {
+    setDuration(e.target.value);
   };
 
   const handleSwitchViewType = (type) => {
@@ -107,8 +112,10 @@ const Home = () => {
                 type={type}
                 categories={categories}
                 category={category}
+                duration={duration}
                 handleTypeChange={handleTypeChange}
                 handleCategoryChange={handleCategoryChange}
+                handleDurationChange={handleDurationChange}
               />
             </div>
             <Transactions

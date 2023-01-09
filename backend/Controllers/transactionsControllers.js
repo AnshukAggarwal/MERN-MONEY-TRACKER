@@ -70,10 +70,13 @@ const Category = require("../Models/categoryModel");
 // };
 
 const getTransactions = async (req, res) => {
-  console.log(req.query);
+  //console.log(req.query.duration);
   const limit = req.query.limit ? req.query.limit : 5;
   //const limit = 5;
-  const { type, category } = req.query;
+  const { type, category, duration } = req.query;
+  const today = new Date();
+  today.setDate(today.getDate() - duration);
+  //console.log(today);
 
   try {
     let selectedCategory = "";
@@ -84,6 +87,9 @@ const getTransactions = async (req, res) => {
       user: req.user._id,
       ...(type !== "all" && { type: type }),
       ...(category !== "all" && { category: selectedCategory._id }),
+      date: {
+        $gt: today,
+      },
     })
       .sort({ date: "asc" })
       .populate("category")
@@ -97,6 +103,9 @@ const getTransactions = async (req, res) => {
       user: req.user._id,
       ...(type !== "all" && { type }),
       ...(category !== "all" && { category: selectedCategory._id }),
+      date: {
+        $gt: today,
+      },
     })
       .sort({ date: "asc" })
       .populate("category");
