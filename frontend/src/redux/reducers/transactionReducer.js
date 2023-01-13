@@ -90,7 +90,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        transactions: action.payload,
+        //transactions: action.payload,
       };
     case types.DELETE_TRANSACTION_FAIL:
       return {

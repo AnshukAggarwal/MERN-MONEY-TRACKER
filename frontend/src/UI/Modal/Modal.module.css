@@ -1,0 +1,59 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(17, 16, 16, 0.75);
+  cursor: pointer;
+}
+
+.card {
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+}
+
+.modal {
+  position: fixed;
+  top: 30vh;
+  left: 30%;
+  width: 40%;
+  z-index: 100;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+.actions {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.helper {
+  display: none;
+}
+
+/* Media Queries */
+
+@media (max-width: 500px) {
+  .helper {
+    display: block;
+  }
+  .text {
+    display: none;
+  }
+  .actions {
+    width: 100%;
+  }
+
+  .modal {
+    width: 65%;
+    left: 20%;
+    height: 50vh;
+  }
+}
