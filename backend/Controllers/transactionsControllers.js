@@ -215,8 +215,7 @@ const deleteTransaction = async (req, res) => {
       user: req.user._id,
     })
       .populate("category")
-      .sort({ date: "asc" })
-      .limit(100);
+      .sort({ date: "asc" });
     res.status(200).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
