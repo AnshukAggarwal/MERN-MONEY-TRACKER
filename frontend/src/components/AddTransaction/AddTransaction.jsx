@@ -37,6 +37,7 @@ const AddTransaction = () => {
   const handleAddTransaction = (e) => {
     e.preventDefault();
     if (!checkEmptyInputFields([text, amount, type, date, category])) {
+      //console.log(addTransactionFormData);
       dispatch(addTransactionAsync(addTransactionFormData));
       navigate("/");
     }

@@ -12,18 +12,12 @@ const EditTransaction = () => {
   //console.log(location.state.data);
   const { text, amount, type, date, category, _id } = location.state.data;
   const transDate = new Date(date).toISOString().split("T")[0];
-  // const month = transDate.getMonth() + 1;
-  // const day =
-  //   transDate.getDate() + 1 > 9
-  //     ? transDate.getDate() + 1
-  //     : `0${transDate.getDate() + 1}`;
-  // const year = transDate.getFullYear();
   const [editTransactionFormData, setEditTransactionFormData] = useState({
     transactionText: text,
     transactionAmount: amount,
     transactionType: type,
     transactionDate: transDate,
-    transactionCategory: category,
+    transactionCategory: category._id,
   });
   const {
     transactionAmount,
@@ -52,6 +46,7 @@ const EditTransaction = () => {
 
   const handleEditTransaction = (e) => {
     e.preventDefault();
+    //console.log(editTransactionFormData);
     if (!checkEmptyInputFields([text, amount, type, date, category])) {
       dispatch(editTransactionAsync(editTransactionFormData, _id));
       navigate("/");
@@ -131,11 +126,11 @@ const EditTransaction = () => {
           <select
             className="form-select"
             id="category"
-            value={transactionCategory.name}
+            value={transactionCategory}
             name="transactionCategory"
             onChange={handleInputChange}
           >
-            {/* <option value={category.name}>{category.name}</option> */}
+            <option value={category._id}>{category.name}</option>
             {categories.map((category) => {
               return (
                 <option key={category._id} value={category._id}>
@@ -150,5 +145,174 @@ const EditTransaction = () => {
     </>
   );
 };
+
+// export default EditTransaction;
+
+// import React, { useEffect, useState } from "react";
+// import { FaMoneyCheckAlt } from "react-icons/fa";
+// import { useSelector, useDispatch } from "react-redux";
+// import { useLocation, useNavigate, Link } from "react-router-dom";
+// import { checkEmptyInputFields } from "../../utils";
+// import Button from "../../UI/Button/Button";
+// import { getCategoriesAsync } from "../../redux/actions/uiActions";
+// import {
+//   editTransactionAsync,
+//   fetchTransactionAsync,
+// } from "../../redux/actions/transactionActions";
+
+// const EditTransaction = () => {
+//   const location = useLocation();
+//   //console.log(location.state.data);
+//   const { _id } = location.state.data;
+//   //const transDate = new Date(date).toISOString().split("T")[0];
+//   const [editTransactionFormData, setEditTransactionFormData] = useState({
+//     text: "",
+//     amount: "",
+//     date: "",
+//     type: "",
+//     category: "",
+//   });
+//   const { categories } = useSelector((state) => state.ui);
+//   const { currentTransaction, loading } = useSelector(
+//     (state) => state.transactions
+//   );
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     dispatch(getCategoriesAsync());
+//     dispatch(fetchTransactionAsync(_id));
+//   }, [dispatch, _id]);
+
+//   useEffect(() => {
+//     if (currentTransaction) {
+//       console.log(currentTransaction);
+//       setEditTransactionFormData({
+//         text: currentTransaction.text,
+//         amount: currentTransaction.amount,
+//         type: currentTransaction.type,
+//         category: currentTransaction.category,
+//         date: new Date().toISOString().split("T")[0],
+//         // date: new Date(currentTransaction.date).toISOString().split("T")[0],
+//       });
+//     }
+//   }, [dispatch, currentTransaction]);
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setEditTransactionFormData((prevState) => {
+//       return {
+//         ...prevState,
+//         [name]: value,
+//       };
+//     });
+//   };
+
+//   const handleEditTransaction = (e) => {
+//     e.preventDefault();
+//     console.log(editTransactionFormData);
+//     // if (!checkEmptyInputFields([text, amount, type, date, category])) {
+//     //   dispatch(editTransactionAsync(editTransactionFormData, _id));
+//     //   navigate("/");
+//     // }
+
+//     dispatch(editTransactionAsync(editTransactionFormData, _id));
+//     navigate("/");
+//   };
+
+//   return (
+//     <>
+//       <section className="mb-5">
+//         <Link to="/">
+//           <Button>Back to transactions</Button>
+//         </Link>
+//       </section>
+//       <h2>
+//         <FaMoneyCheckAlt color="#ff2625" size={50} /> Edit Transaction
+//       </h2>
+//       <form onSubmit={handleEditTransaction}>
+//         <div className="mb-3">
+//           <label htmlFor="text" className="form-label">
+//             Text
+//           </label>
+//           <input
+//             type="text"
+//             className="form-control"
+//             id="text"
+//             name="text"
+//             value={editTransactionFormData.text}
+//             onChange={handleInputChange}
+//           />
+//         </div>
+//         <div className="mb-3">
+//           <label htmlFor="amount" className="form-label">
+//             Amount
+//           </label>
+//           <input
+//             type="number"
+//             className="form-control"
+//             id="amount"
+//             name="amount"
+//             value={editTransactionFormData.amount}
+//             onChange={handleInputChange}
+//           />
+//         </div>
+//         <div className="mb-3">
+//           <label htmlFor="type" className="form-label">
+//             Type
+//           </label>
+//           <select
+//             className="form-select"
+//             id="type"
+//             name="type"
+//             value={editTransactionFormData.type}
+//             onChange={handleInputChange}
+//           >
+//             <option value="none">----</option>
+//             <option value="Income">Income</option>
+//             <option value="Expense">Expense</option>
+//           </select>
+//         </div>
+//         <div className="mb-3">
+//           <label htmlFor="date" className="form-label">
+//             Date
+//           </label>
+//           <input
+//             type="date"
+//             className="form-control"
+//             id="date"
+//             name="date"
+//             value={editTransactionFormData.date}
+//             onChange={handleInputChange}
+//           />
+//         </div>
+//         <div className="mb-3">
+//           <label htmlFor="category" className="form-label">
+//             Category
+//           </label>
+//           <select
+//             className="form-select"
+//             id="category"
+//             value={editTransactionFormData.category.name}
+//             name="category"
+//             onChange={handleInputChange}
+//           >
+//             <option value={editTransactionFormData.category.name}>
+//               {editTransactionFormData.category.name}
+//             </option>
+//             {categories.map((category) => {
+//               return (
+//                 <option key={category._id} value={category._id}>
+//                   {category.name}
+//                 </option>
+//               );
+//             })}
+//           </select>
+//         </div>
+//         <Button type="submit">Update Transaction</Button>
+//       </form>
+//     </>
+//   );
+// };
 
 export default EditTransaction;

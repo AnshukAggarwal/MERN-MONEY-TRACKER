@@ -22,8 +22,9 @@ export const getTransactionAsync = (limit, type, category, duration) => {
       //   `/api/transactions/?limit=${limit}&type=${type}&category=${category}`,
       //   config
       // );
+      console.log("getting all transactions");
       const { data } = await axios.get(`/api/transactions/`, config);
-      //console.log(data);
+
       dispatch({ type: types.GET_TRANSACTIONS_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
@@ -75,7 +76,7 @@ export const editTransactionAsync = (transactionData, id) => {
         transactionData,
         config
       );
-      dispatch({ type: types.EDIT_TRANSACTION_SUCCESS });
+      dispatch({ type: types.EDIT_TRANSACTION_SUCCESS, payload: data });
     } catch (error) {
       dispatch({
         type: types.EDIT_TRANSACTION_FAIL,
@@ -84,6 +85,28 @@ export const editTransactionAsync = (transactionData, id) => {
     }
   };
 };
+
+// export const fetchTransactionAsync = (id) => {
+//   return async (dispatch) => {
+//     const token = await store.getState().auth.user.token;
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     };
+//     try {
+//       dispatch({ type: types.GET_TRANSACTION_START });
+//       const { data } = await axios.get(`/api/transactions/${id}`, config);
+//       console.log(data);
+//       dispatch({ type: types.GET_TRANSACTION_SUCCESS, payload: data });
+//     } catch (error) {
+//       dispatch({
+//         type: types.GET_TRANSACTION_FAIL,
+//         payload: error.response.data.message,
+//       });
+//     }
+//   };
+// };
 
 export const deleteTransactionAsync = (id) => {
   return async (dispatch) => {

@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   loading: false,
   error: null,
   transactions: [],
+  currentTransaction: {},
 };
 
 export const transactionsReducer = (state = INITIAL_STATE, action) => {
@@ -23,6 +24,25 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       };
     }
     case types.GET_TRANSACTIONS_FAIL: {
+      return {
+        ...state,
+        error: action.payload,
+      };
+    }
+    case types.GET_TRANSACTION_START: {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
+    case types.GET_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        currentTransaction: action.payload,
+      };
+    }
+    case types.GET_TRANSACTION_FAIL: {
       return {
         ...state,
         error: action.payload,
@@ -56,7 +76,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        //transactions: action.payload,
+        transactions: action.payload,
       };
     }
     case types.EDIT_TRANSACTION_FAIL:

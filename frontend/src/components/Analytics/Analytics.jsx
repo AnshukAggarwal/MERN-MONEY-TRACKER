@@ -20,8 +20,10 @@ const Analytics = ({ transactions, categories }) => {
     <>
       <h3>Analytics</h3>
       <section className="d-flex flex-column">
-        <section className="row test mb-5 p-4">
-          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4">
+        <section className={`${styles["analytics-container"]} row mb-5 p-4`}>
+          <section
+            className={`${styles["analytics-data-container"]} col d-flex flex-column justify-content-between align-items-center p-4`}
+          >
             <div>
               <h3>Transaction Wise Analysis</h3>
             </div>
@@ -50,7 +52,9 @@ const Analytics = ({ transactions, categories }) => {
               </div>
             </div>
           </section>
-          <section className="col test2 d-flex flex-column justify-content-between align-items-center p-4">
+          <section
+            className={`${styles["analytics-data-container"]} col d-flex flex-column justify-content-between align-items-center p-4`}
+          >
             <div>
               <h3>Amount Wise Analysis</h3>
             </div>

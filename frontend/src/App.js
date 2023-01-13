@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import EditTransaction from "./components/EditTransaction/EditTransaction";
 import DeleteTransaction from "./components/DeleteTransaction/DeleteTransaction";
 import AddTransaction from "./components/AddTransaction/AddTransaction";
+import ViewTransaction from "./components/ViewTransaction/ViewTransaction";
 import Account from "./pages/Account";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="edit" element={<EditTransaction />} />
           <Route path="delete" element={<DeleteTransaction />} />
           <Route path="account" element={<Account />} />
+          <Route path="transaction" element={<ViewTransaction />} />
         </Routes>
       </main>
       <ToastContainer />
