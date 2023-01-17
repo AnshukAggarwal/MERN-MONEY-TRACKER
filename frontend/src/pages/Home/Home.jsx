@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { BsTable } from "react-icons/bs";
 import { SiSimpleanalytics } from "react-icons/si";
-import Spinner from "../../UI/Button/Spinner/Spinner";
+import Spinner from "../../UI/Spinner/Spinner";
 import Button from "../../UI/Button/Button";
 import Filters from "../../components/Filters/Filters";
 import Transactions from "../../components/Transactions/Transactions";
@@ -33,10 +33,13 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getCategoriesAsync());
+  }, []);
+
+  useEffect(() => {
     if (!user) {
       navigate("/account");
     }
-    dispatch(getCategoriesAsync());
     dispatch(getTransactionAsync(limit, type, category, duration));
   }, [user, navigate, dispatch, limit, type, category, duration]);
 

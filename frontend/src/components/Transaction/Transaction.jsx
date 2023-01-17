@@ -17,8 +17,8 @@ const Transaction = ({ transaction }) => {
           <div>{day + 1}</div>
           <div>{year}</div>
         </div>
-        <div className="text">{transaction.text}</div>
-        <div className="amount">$ {transaction.amount}</div>
+        <div className={styles.text}>{transaction.text}</div>
+        <div className={styles.amount}>$ {transaction.amount}</div>
       </div>
     </Link>
   );
