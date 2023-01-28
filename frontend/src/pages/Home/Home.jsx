@@ -6,7 +6,6 @@ import { SiSimpleanalytics } from "react-icons/si";
 import Spinner from "../../UI/Spinner/Spinner";
 import Button from "../../UI/Button/Button";
 import Filters from "../../components/Filters/Filters";
-import Transactions from "../../components/Transactions/Transactions";
 import TransactionsList from "../../components/TransactionsList/TransactionsList";
 import Analytics from "../../components/Analytics/Analytics";
 import {
@@ -34,7 +33,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getCategoriesAsync());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!user) {
@@ -98,17 +97,15 @@ const Home = () => {
         </div>
         {viewType === "table" ? (
           <>
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <Filters
-                type={type}
-                categories={categories}
-                category={category}
-                duration={duration}
-                handleTypeChange={handleTypeChange}
-                handleCategoryChange={handleCategoryChange}
-                handleDurationChange={handleDurationChange}
-              />
-            </div>
+            <Filters
+              type={type}
+              categories={categories}
+              category={category}
+              duration={duration}
+              handleTypeChange={handleTypeChange}
+              handleCategoryChange={handleCategoryChange}
+              handleDurationChange={handleDurationChange}
+            />
             {/* <Transactions
               transactions={transactions}
               total={total}

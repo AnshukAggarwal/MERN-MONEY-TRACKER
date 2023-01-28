@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Filters.module.css";
 
 const Filters = ({
   type,
@@ -10,8 +11,10 @@ const Filters = ({
   handleDurationChange,
 }) => {
   return (
-    <>
-      <section className="d-flex flex-column">
+    <div
+      className={`${styles["mobile-filters"]} d-flex justify-content-between align-items-center mb-3`}
+    >
+      <section>
         <h6>Filter By Type</h6>
         <select
           value={type}
@@ -53,7 +56,7 @@ const Filters = ({
           })}
         </select>
       </section>
-    </>
+    </div>
   );
 };
 

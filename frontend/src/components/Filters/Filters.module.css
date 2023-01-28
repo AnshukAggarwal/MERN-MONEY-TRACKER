@@ -1,0 +1,14 @@
+@media screen and (max-width: 786px) {
+  .mobile-filters {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-filters > section {
+    flex: 1 1 0;
+    width: 80%;
+    margin-bottom: 10px;
+  }
+}

@@ -22,7 +22,7 @@ export const getTransactionAsync = (limit, type, category, duration) => {
       //   `/api/transactions/?limit=${limit}&type=${type}&category=${category}`,
       //   config
       // );
-      console.log("getting all transactions");
+      //console.log("getting all transactions");
       const { data } = await axios.get(`/api/transactions/`, config);
 
       dispatch({ type: types.GET_TRANSACTIONS_SUCCESS, payload: data });
