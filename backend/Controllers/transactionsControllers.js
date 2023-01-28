@@ -132,6 +132,8 @@ const getTransaction = async (req, res) => {
 
 const addTransaction = async (req, res) => {
   const { text, amount, date, category, type } = req.body;
+  const today = new Date();
+  today.setDate(today.getDate() - 7);
   const newTransaction = new Transactions({
     text,
     amount,
@@ -143,7 +145,15 @@ const addTransaction = async (req, res) => {
 
   try {
     await newTransaction.save();
-    res.status(201);
+    // const transactions = await Transactions.find({
+    //   user: req.user._id,
+    //   date: {
+    //     $gt: today,
+    //   },
+    // })
+    //   .sort({ date: "asc" })
+    //   .populate("category");
+    res.status(201).json;
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -183,12 +193,12 @@ const editTransaction = async (req, res) => {
     };
 
     await Transactions.findByIdAndUpdate(id, updatedTransaction, { new: true });
-    const transactions = await Transactions.find({
-      user: req.user._id,
-    })
-      .sort({ date: "asc" })
-      .populate("category");
-    res.status(200).json(transactions);
+    // const transactions = await Transactions.find({
+    //   user: req.user._id,
+    // })
+    //   .sort({ date: "asc" })
+    //   .populate("category");
+    res.status(200);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -211,12 +221,12 @@ const deleteTransaction = async (req, res) => {
   }
   try {
     await Transactions.findByIdAndDelete(id);
-    const transactions = await Transactions.find({
-      user: req.user._id,
-    })
-      .populate("category")
-      .sort({ date: "asc" });
-    res.status(200).json(transactions);
+    // const transactions = await Transactions.find({
+    //   user: req.user._id,
+    // })
+    //   .populate("category")
+    //   .sort({ date: "asc" });
+    res.status(200).json;
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

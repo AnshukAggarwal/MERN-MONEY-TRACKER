@@ -24,7 +24,7 @@ const TransactionsList = ({
       )}
     </>
   ) : (
-    <h3>You have no transactions yet!</h3>
+    <h3>You have no transactions matching your selected filters</h3>
   );
 };
 
