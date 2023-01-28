@@ -19,10 +19,10 @@ const Home = () => {
   const [limit, setLimit] = useState(5);
   const [type, setType] = useState("all");
   const [category, setCategory] = useState("all");
-  const [duration, setDuration] = useState("20");
+  const [duration, setDuration] = useState("7");
   const [viewType, setViewType] = useState("table");
   const { user } = useSelector((state) => state.auth);
-  const { transactions, total, loading } = useSelector(
+  const { transactions, total, loading, fetchAgain } = useSelector(
     (state) => state.transactions
   );
 
@@ -40,7 +40,7 @@ const Home = () => {
       navigate("/account");
     }
     dispatch(getTransactionAsync(limit, type, category, duration));
-  }, [user, navigate, dispatch, limit, type, category, duration]);
+  }, [user, navigate, dispatch, limit, type, category, duration, fetchAgain]);
 
   const handleDeleteTransaction = (id) => {
     dispatch(deleteTransactionAsync(id));
