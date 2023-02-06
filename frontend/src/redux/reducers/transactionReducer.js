@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   error: null,
   transactions: [],
   currentTransaction: {},
-  fetchAgain: false,
 };
 
 export const transactionsReducer = (state = INITIAL_STATE, action) => {
@@ -59,8 +58,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        fetchAgain: !state.fetchAgain,
-        //transactions: action.payload,
+        transactions: action.payload,
       };
     }
     case types.ADD_TRANSACTION_FAIL: {
@@ -78,8 +76,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        fetchAgain: !state.fetchAgain,
-        //transactions: action.payload,
+        transactions: action.payload,
       };
     }
     case types.EDIT_TRANSACTION_FAIL:
@@ -93,8 +90,7 @@ export const transactionsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        fetchAgain: !state.fetchAgain,
-        //transactions: action.payload,
+        transactions: action.payload,
       };
     case types.DELETE_TRANSACTION_FAIL:
       return {

@@ -145,15 +145,16 @@ const addTransaction = async (req, res) => {
 
   try {
     await newTransaction.save();
-    // const transactions = await Transactions.find({
-    //   user: req.user._id,
-    //   date: {
-    //     $gt: today,
-    //   },
-    // })
-    //   .sort({ date: "asc" })
-    //   .populate("category");
-    res.status(201).json;
+    const transactions = await Transactions.find({
+      user: req.user._id,
+      date: {
+        $gt: today,
+      },
+    })
+      .sort({ date: "asc" })
+      .populate("category")
+      .limit(5);
+    res.status(201).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -167,6 +168,8 @@ const editTransaction = async (req, res) => {
     transactionCategory,
   } = req.body;
   const { id } = req.params;
+  const today = new Date();
+  today.setDate(today.getDate() - 7);
   const transactionToUpdate = await Transactions.findById(id);
   //console.log(transactionToUpdate);
 
@@ -193,11 +196,16 @@ const editTransaction = async (req, res) => {
     };
 
     await Transactions.findByIdAndUpdate(id, updatedTransaction, { new: true });
-    // const transactions = await Transactions.find({
-    //   user: req.user._id,
-    // })
-    //   .sort({ date: "asc" })
-    //   .populate("category");
+    const transactions = await Transactions.find({
+      user: req.user._id,
+      date: {
+        $gt: today,
+      },
+    })
+      .sort({ date: "asc" })
+      .populate("category")
+      .limit(5);
+    res.status(200).json(transactions);
     res.status(200);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -205,6 +213,8 @@ const editTransaction = async (req, res) => {
 };
 const deleteTransaction = async (req, res) => {
   const { id } = req.params;
+  const today = new Date();
+  today.setDate(today.getDate() - 7);
 
   const transactionToDelete = await Transactions.findById(id);
 
@@ -221,12 +231,16 @@ const deleteTransaction = async (req, res) => {
   }
   try {
     await Transactions.findByIdAndDelete(id);
-    // const transactions = await Transactions.find({
-    //   user: req.user._id,
-    // })
-    //   .populate("category")
-    //   .sort({ date: "asc" });
-    res.status(200).json;
+    const transactions = await Transactions.find({
+      user: req.user._id,
+      date: {
+        $gt: today,
+      },
+    })
+      .sort({ date: "asc" })
+      .populate("category")
+      .limit(5);
+    res.status(200).json(transactions);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

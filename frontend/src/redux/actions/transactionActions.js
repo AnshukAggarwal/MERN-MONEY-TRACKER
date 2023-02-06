@@ -50,8 +50,8 @@ export const addTransactionAsync = (transactionData) => {
         transactionData,
         config
       );
-      // dispatch({ type: types.ADD_TRANSACTION_SUCCESS, payload: data });
-      dispatch({ type: types.ADD_TRANSACTION_SUCCESS });
+      dispatch({ type: types.ADD_TRANSACTION_SUCCESS, payload: data });
+      //dispatch({ type: types.ADD_TRANSACTION_SUCCESS });
     } catch (error) {
       dispatch({
         type: types.ADD_TRANSACTION_FAIL,

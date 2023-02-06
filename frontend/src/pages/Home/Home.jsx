@@ -22,11 +22,9 @@ const Home = () => {
   const [duration, setDuration] = useState("7");
   const [viewType, setViewType] = useState("table");
   const { user } = useSelector((state) => state.auth);
-  const { transactions, total, loading, fetchAgain } = useSelector(
+  const { transactions, total, loading } = useSelector(
     (state) => state.transactions
   );
-
-  console.log(transactions);
   const { categories } = useSelector((state) => state.ui);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,7 +38,7 @@ const Home = () => {
       navigate("/account");
     }
     dispatch(getTransactionAsync(limit, type, category, duration));
-  }, [user, navigate, dispatch, limit, type, category, duration, fetchAgain]);
+  }, [user, navigate, dispatch, limit, type, category, duration]);
 
   const handleDeleteTransaction = (id) => {
     dispatch(deleteTransactionAsync(id));
