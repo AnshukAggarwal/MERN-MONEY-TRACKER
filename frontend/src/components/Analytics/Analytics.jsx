@@ -3,7 +3,6 @@ import CategoryProgressBar from "../CategoryProgressBar/CategoryProgressBar";
 import styles from "./Analytics.module.css";
 
 const Analytics = ({ transactions, categories }) => {
-  console.log(transactions);
   const incomeTransactions = transactions.filter((t) => t.type === "Income");
   const expenseTransactions = transactions.filter((t) => t.type === "Expense");
   const totalMoneyFromTransactions = transactions
@@ -31,23 +30,27 @@ const Analytics = ({ transactions, categories }) => {
               <div
                 className={`${styles["circle-green"]} d-flex flex-column justify-content-center align-items-center me-1 ${styles.gap}`}
               >
-                <h6>Income : {incomeTransactions.length}</h6>
+                <h6>Income : ${incomeTransactions.length}</h6>
                 <h6>
-                  {(incomeTransactions.length / transactions.length).toFixed(
-                    1
-                  ) * 100}{" "}
-                  %
+                  {incomeTransactions.length > 0
+                    ? (incomeTransactions.length / transactions.length).toFixed(
+                        1
+                      ) * 100
+                    : null}
+                  <span>{incomeTransactions.length > 0 ? "%" : null}</span>
                 </h6>
               </div>
               <div
                 className={`${styles["circle-red"]} d-flex flex-column justify-content-center align-items-center ms-1 ${styles.gap}`}
               >
-                <h6>Expense: {expenseTransactions.length}</h6>
+                <h6>Expense: ${expenseTransactions.length}</h6>
                 <h6>
-                  {(expenseTransactions.length / transactions.length).toFixed(
-                    1
-                  ) * 100}{" "}
-                  %
+                  {expenseTransactions.length > 0
+                    ? (
+                        expenseTransactions.length / transactions.length
+                      ).toFixed(1) * 100
+                    : null}
+                  <span>{expenseTransactions.length > 0 ? "%" : null}</span>
                 </h6>
               </div>
             </div>
@@ -64,7 +67,10 @@ const Analytics = ({ transactions, categories }) => {
               >
                 <h6>Income: ${incomeTotal.toFixed(0)}</h6>
                 <h6>
-                  {(incomeTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
+                  {incomeTotal > 0
+                    ? (incomeTotal / totalMoneyFromTransactions).toFixed(2) *
+                      100
+                    : null}{" "}
                   %
                 </h6>
               </div>
@@ -73,7 +79,10 @@ const Analytics = ({ transactions, categories }) => {
               >
                 <h6>Expense: ${expenseTotal.toFixed(0)}</h6>
                 <h6>
-                  {(expenseTotal / totalMoneyFromTransactions).toFixed(2) * 100}{" "}
+                  {expenseTotal > 0
+                    ? (expenseTotal / totalMoneyFromTransactions).toFixed(2) *
+                      100
+                    : null}{" "}
                   %
                 </h6>
               </div>
